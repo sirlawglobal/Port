@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Akanji Lawrence | Fullstack Engineer</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(270deg, #0f2027, #203a43, #2c5364);
+      background-size: 600% 600%;
+      animation: gradientShift 12s ease infinite;
+      color: white;
+      line-height: 1.6;
+      transition: background 0.5s ease;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      padding: 50px 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+    }
+    header p, header a {
+      color: #58a6ff;
+      font-size: 1.1rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .section {
+      margin-bottom: 60px;
+      transition: transform 0.3s ease;
+    }
+
+    .section:hover {
+      transform: translateY(-5px);
+    }
+
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      border-left: 5px solid #00b4d8;
+      padding-left: 15px;
+      color: #00b4d8;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .project {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 12px;
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .project:hover {
+      transform: scale(1.03);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .project h3 {
+      color: #00b4d8;
+      margin-bottom: 10px;
+    }
+
+    .skills span {
+      display: inline-block;
+      background: #00b4d8;
+      color: black;
+      padding: 6px 12px;
+      margin: 5px 5px 0 0;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .contact-form {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      box-shadow: 0 0 5px 2px #00b4d8;
+    }
+
+    .contact-form button {
+      background: #00b4d8;
+      color: black;
+      padding: 12px 24px;
+      border: none;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .contact-form button:hover {
+      background: #90e0ef;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React and Babel -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <!-- React App -->
+  <script type="text/babel">
+    const projects = [
+      { title: "CRM Platform", description: "Audits, reviews, escalation tracking, admin dashboard." },
+      { title: "Osagoo Donation Website", description: "Donation platform with multi-currency (Paystack), profile uploads." },
+      { title: "Expense Tracker", description: "Transaction tracking via text, scan and voice inputs." },
+      { title: "Event Sharing", description: "Real-time file storage with user uploads using Cloudinary." },
+      { title: "Chinese Restaurant", description: "Order system with inventory management and real-time updates." },
+      { title: "Messaging App", description: "User-based chat with socket.io and read receipts." }
+    ];
+
+    const skills = [
+      "Node.js", "Laravel", "React.js", "MongoDB", "MySQL", "Cloudinary",
+      "Paystack", "Mailgun", "RESTful APIs", "JavaScript", "PHP", "CI/CD"
+    ];
+
+    function Header() {
+      return (
+        <header>
+          <h1>Akanji Lawrence</h1>
+          <p>Fullstack Developer | Node.js | Laravel | React | MongoDB</p>
+          <p><a href="https://github.com/sirlawglobal" target="_blank">GitHub: sirlawglobal</a></p>
+        </header>
+      );
+    }
+
+    function Project({ title, description }) {
+      return (
+        <div className="project">
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </div>
+      );
+    }
+
+    function Section({ title, children }) {
+      return (
+        <div className="section">
+          <h2>{title}</h2>
+          {children}
+        </div>
+      );
+    }
+
+    function Skills({ skills }) {
+      return (
+        <div className="skills">
+          {skills.map((s, i) => <span key={i}>{s}</span>)}
+        </div>
+      );
+    }
+
+    function ContactForm() {
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        alert("Thanks for reaching out! I’ll get back to you shortly.");
+      };
+
+      return (
+        <form className="contact-form" onSubmit={handleSubmit}>
+          <input type="text" placeholder="Your Name" required />
+          <input type="email" placeholder="Your Email" required />
+          <textarea rows="5" placeholder="Your Message" required />
+          <button type="submit">Send Message</button>
+        </form>
+      );
+    }
+
+    function QuoteCard() {
+      const [quote, setQuote] = React.useState(null);
+      const [loading, setLoading] = React.useState(true);
+      const [error, setError] = React.useState("");
+
+      const fetchQuote = () => {
+        setLoading(true);
+        fetch("https://dsa-basic-api.onrender.com/quotes/random")
+          .then((res) => res.json())
+          .then((data) => {
+            setQuote(data.data);
+            setError("");
+            setLoading(false);
+          })
+          .catch(() => {
+            setError("Could not load quote.");
+            setLoading(false);
+          });
+      };
+
+      React.useEffect(() => {
+        fetchQuote();
+      }, []);
+
+      return (
+        <div style={{
+          background: "rgba(0, 255, 255, 0.05)",
+          padding: "20px",
+          borderRadius: "12px",
+          textAlign: "center",
+          margin: "40px auto",
+          maxWidth: "700px",
+          border: "1px solid rgba(0, 255, 255, 0.2)",
+          boxShadow: "0 0 10px rgba(0, 255, 255, 0.1)",
+          color: "#ccc"
+        }}>
+          {loading && <div>Loading quote...</div>}
+          {error && <div style={{ color: "tomato" }}>{error}</div>}
+
+          {quote && !loading && (
+            <div>
+              <p style={{ fontSize: "1.2rem", fontStyle: "italic", color: "#90e0ef", marginBottom: "10px" }}>
+                "{quote.text}"
+              </p>
+              <p style={{ color: "#ccc", marginBottom: "20px" }}>
+                — {quote.author || "Unknown"}
+              </p>
+              <button
+                onClick={fetchQuote}
+                style={{
+                  background: "#00b4d8",
+                  color: "black",
+                  padding: "10px 20px",
+                  border: "none",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontWeight: "bold"
+                }}
+              >
+                New Quote
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <div className="container">
+          <Header />
+          <Section title="Projects">
+            <div className="project-grid">
+              {projects.map((project, index) => (
+                <Project key={index} {...project} />
+              ))}
+            </div>
+          </Section>
+          <Section title="Skills">
+            <Skills skills={skills} />
+          </Section>
+          <Section title="Quote of the Day">
+            <QuoteCard />
+          </Section>
+          <Section title="Contact Me">
+            <ContactForm />
+          </Section>
+          <footer>
+            &copy; {new Date().getFullYear()} Akanji Lawrence. All rights reserved.
+          </footer>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
+</body>
+</html>
