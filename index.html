@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Akanji Lawrence | Fullstack Engineer</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(270deg, #0f2027, #203a43, #2c5364);
+      background-size: 600% 600%;
+      animation: gradientShift 12s ease infinite;
+      color: white;
+      line-height: 1.6;
+      padding: 0;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      padding: 50px 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    header p, header a {
+      color: #58a6ff;
+      font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+      display: block;
+      margin-bottom: 5px;
+    }
+    header a:hover { text-decoration: underline; }
+
+    .container { 
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .section {
+      margin-bottom: 50px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .section:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    .section h2 {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      margin-bottom: 20px;
+      border-left: 5px solid #00b4d8;
+      padding-left: 15px;
+      color: #00b4d8;
+    }
+
+    /* Skills Grid */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .highlight-skill {
+      background: #00b4d8;
+      color: black;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      transition: transform 0.2s ease;
+    }
+    .highlight-skill:hover {
+      transform: scale(1.05);
+      background: #90e0ef;
+    }
+
+    /* Experience */
+    .experience-item { margin-bottom: 20px; }
+    .experience-item h3 { color: #90e0ef; margin-bottom: 5px; }
+    .experience-item ul { padding-left: 20px; }
+    .experience-item li { margin-bottom: 5px; }
+
+    /* Project Grid */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .project {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .project:hover {
+      transform: scale(1.03);
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .project h3 { color: #00b4d8; margin-bottom: 10px; }
+
+    /* Contact Form */
+    .contact-form {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .contact-form button {
+      background: #00b4d8;
+      color: black;
+      padding: 12px 24px;
+      border: none;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .contact-form button:hover {
+      background: #90e0ef;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .section { padding: 15px; }
+      .highlight-skill { font-size: 12px; padding: 6px 12px; }
+      .contact-form { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <script type="text/babel">
+    const projects = [
+      { title: "AI-Powered Predictive System", description: "Prototype for predictive analysis using AI algorithms." },
+      { title: "Tech Support Bot", description: "AI chatbot for customer queries in a restaurant." },
+      { title: "CRM System", description: "Modules for site audits, weekly reviews, and escalation tracking." },
+      { title: "Multi-Currency Donation Platform", description: "Paystack NGN/USD donations, profile uploads." },
+      { title: "Expense Tracker App", description: "Track expenses via text, scan, and voice inputs." },
+      { title: "Event Share Website", description: "Cloudinary-powered media storage and sharing." }
+    ];
+
+    const coreSkills = [
+      "JavaScript (ES6+)", "TypeScript", "PHP", "Python", "SQL", "HTML5", "CSS3",
+      "Node.js", "Express.js", "Laravel", "React.js", "Remix.js", "FastAPI", "Flask",
+      "MongoDB", "MySQL", "PostgreSQL", "SQLite",
+      "AWS (SSM, EC2, VPC)", "Cloudinary", "CI/CD", "RESTful APIs"
+    ];
+
+    const nonTechSkills = [
+      "Startup Ideation & Lean Business Modeling",
+      "Problem Solving & Debugging",
+      "Cross-Cultural Teamwork & Collaboration",
+      "Technical Documentation & Communication",
+      "Self-Driven Learning & Initiative"
+    ];
+
+    const experiences = [
+      {
+        role: "Fullstack Engineer | Gen128 Solutions",
+        period: "2024 – Present",
+        details: [
+          "Developed backend APIs and scalable database schemas.",
+          "Integrated cloud storage and third-party APIs.",
+          "Led AI-assisted customer service automation."
+        ]
+      },
+      {
+        role: "Intern | Kolatech Consultancy, HNG",
+        period: "2023 – 2024",
+        details: [
+          "Built responsive web apps with multi-disciplinary teams.",
+          "Contributed to CRM modules, job boards, and donation systems.",
+          "Implemented secure authentication and payment workflows."
+        ]
+      }
+    ];
+
+    const certifications = [
+      "B.Sc. in Physics – Obafemi Awolowo University, 2021",
+      "Software Development – Geegstack Academy, 2024",
+      "Advanced Software Development Mastery – Incubator Program, 2025",
+      "DevOps & Cloud Engineering – TechRise Mentorship Program, 2025",
+      "Web3 Internship – Genesys, 2025"
+    ];
+
+    function Header() {
+      return (
+        <header>
+          <h1>Akanji Lawrence</h1>
+          <p>Lagos, Nigeria | +234 816 599 9946 | akanjilawrence9999@gmail.com</p>
+          <p><a href="https://github.com/sirlawglobal" target="_blank">GitHub: sirlawglobal</a></p>
+        </header>
+      );
+    }
+
+    function Section({ title, children }) {
+      return (
+        <div className="section">
+          <h2>{title}</h2>
+          {children}
+        </div>
+      );
+    }
+
+    function Skills({ skills }) {
+      return <div className="skills">{skills.map((s, i) => <span key={i} className="highlight-skill">{s}</span>)}</div>;
+    }
+
+    function ExperienceList({ items }) {
+      return items.map((exp, i) => (
+        <div className="experience-item" key={i}>
+          <h3>{exp.role} <small>({exp.period})</small></h3>
+          <ul>
+            {exp.details.map((d, j) => <li key={j}>{d}</li>)}
+          </ul>
+        </div>
+      ));
+    }
+
+    function ListDisplay({ items }) {
+      return <ul>{items.map((item, i) => <li key={i}>{item}</li>)}</ul>;
+    }
+
+    function Project({ title, description }) {
+      return (
+        <div className="project">
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </div>
+      );
+    }
+
+    function ContactForm() {
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        alert("Thanks for reaching out! I’ll get back to you shortly.");
+      };
+      return (
+        <form className="contact-form" onSubmit={handleSubmit}>
+          <input type="text" placeholder="Your Name" required />
+          <input type="email" placeholder="Your Email" required />
+          <textarea rows="5" placeholder="Your Message" required />
+          <button type="submit">Send Message</button>
+        </form>
+      );
+    }
+
+    function App() {
+      return (
+        <div className="container">
+          <Header />
+          <Section title="Professional Summary">
+            <p>
+              Innovative and solutions-driven Fullstack Software Engineer & Aspiring AI Entrepreneur with 3+ years of experience building scalable, user-focused products. Passionate about leveraging AI and entrepreneurship to solve African and global challenges.
+            </p>
+          </Section>
+          <Section title="Core Technical Skills">
+            <Skills skills={coreSkills} />
+          </Section>
+          <Section title="Non-Technical & Entrepreneurial Skills">
+            <ListDisplay items={nonTechSkills} />
+          </Section>
+          <Section title="Experience">
+            <ExperienceList items={experiences} />
+          </Section>
+          <Section title="Projects">
+            <div className="project-grid">
+              {projects.map((p, i) => <Project key={i} {...p} />)}
+            </div>
+          </Section>
+          <Section title="Education & Certifications">
+            <ListDisplay items={certifications} />
+          </Section>
+          <Section title="Contact Me">
+            <ContactForm />
+          </Section>
+          <footer>&copy; {new Date().getFullYear()} Akanji Lawrence. All rights reserved.</footer>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
+</body>
+</html>
