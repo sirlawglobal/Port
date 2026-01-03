@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Akanji Lawrence | Fullstack Engineer</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -15,6 +16,7 @@
       color: white;
       line-height: 1.6;
       padding: 0;
+      scroll-behavior: smooth;
     }
     @keyframes gradientShift {
       0% { background-position: 0% 50%; }
@@ -25,11 +27,20 @@
     header {
       padding: 50px 20px;
       text-align: center;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
     }
     header h1 {
       font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       font-weight: 700;
+    }
+    header .subtitle {
+      color: #00b4d8;
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      margin-bottom: 15px;
+      font-weight: 600;
     }
     header p, header a {
       color: #58a6ff;
@@ -45,13 +56,67 @@
       padding: 20px;
     }
 
+    /* Section Navigation */
+    .section-nav {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px 10px;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      backdrop-filter: blur(5px);
+    }
+    
+    .nav-dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-dot.active {
+      background: #00b4d8;
+      transform: scale(1.3);
+    }
+    
+    .nav-dot:hover {
+      background: #90e0ef;
+      transform: scale(1.2);
+    }
+    
+    .nav-label {
+      position: absolute;
+      right: 25px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .nav-dot:hover .nav-label {
+      opacity: 1;
+    }
+
     .section {
       margin-bottom: 50px;
-      padding: 20px;
+      padding: 25px;
       background: rgba(255, 255, 255, 0.06);
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      scroll-margin-top: 20px;
     }
     .section:hover {
       transform: translateY(-4px);
@@ -77,7 +142,8 @@
       padding: 8px 14px;
       border-radius: 20px;
       font-size: 14px;
-      transition: transform 0.2s ease;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s ease;
     }
     .highlight-skill:hover {
       transform: scale(1.05);
@@ -85,16 +151,49 @@
     }
 
     /* Experience */
-    .experience-item { margin-bottom: 20px; }
-    .experience-item h3 { color: #90e0ef; margin-bottom: 5px; }
-    .experience-item ul { padding-left: 20px; }
-    .experience-item li { margin-bottom: 5px; }
+    .experience-item { 
+      margin-bottom: 25px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .experience-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .experience-item h3 { 
+      color: #90e0ef; 
+      margin-bottom: 5px; 
+      font-size: 1.2rem;
+    }
+    .experience-item .company {
+      color: #00b4d8;
+      font-weight: 600;
+    }
+    .experience-item .period {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    .experience-item ul { 
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+    .experience-item li { 
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .experience-item li:before {
+      content: "▸";
+      color: #00b4d8;
+      position: absolute;
+      left: -15px;
+    }
 
     /* Project Grid */
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
     }
     .project {
       background: rgba(255, 255, 255, 0.1);
@@ -102,42 +201,270 @@
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+      display: block;
+      position: relative;
+      overflow: hidden;
     }
     .project:hover {
-      transform: scale(1.03);
+      transform: translateY(-5px);
       background: rgba(255, 255, 255, 0.15);
+      border-color: #00b4d8;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     }
-    .project h3 { color: #00b4d8; margin-bottom: 10px; }
-
-    /* Contact Form */
-    .contact-form {
-      background: rgba(255, 255, 255, 0.08);
-      padding: 30px;
-      border-radius: 12px;
-      max-width: 600px;
-      margin: auto;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    .project:active {
+      transform: translateY(-2px);
     }
-    .contact-form input, .contact-form textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 6px;
+    .project h3 { 
+      color: #00b4d8; 
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .project h3 i {
       font-size: 1rem;
+      opacity: 0.7;
     }
-    .contact-form button {
+    .project p {
+      color: #ddd;
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+    }
+    .project .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
+    }
+    .project .tech-tag {
+      background: rgba(0, 180, 216, 0.2);
+      color: #90e0ef;
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+    }
+    .project .view-project {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #58a6ff;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+    .project:hover .view-project i {
+      transform: translateX(3px);
+    }
+    .project .view-project i {
+      transition: transform 0.2s ease;
+    }
+
+    /* Chatbot */
+    .chatbot-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    
+    .chatbot-toggle {
+      width: 60px;
+      height: 60px;
+      background: #00b4d8;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .chatbot-toggle:hover {
+      background: #90e0ef;
+      transform: scale(1.1);
+    }
+    
+    .chatbot-toggle i {
+      font-size: 24px;
+      color: black;
+    }
+    
+    .chatbot-window {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      width: 350px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      display: none;
+    }
+    
+    .chatbot-window.open {
+      display: block;
+      animation: slideUp 0.3s ease;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .chatbot-header {
+      background: rgba(0, 180, 216, 0.2);
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .chatbot-header h3 {
+      margin: 0;
+      color: #00b4d8;
+    }
+    
+    .close-chatbot {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    
+    .chatbot-body {
+      padding: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .chat-message {
+      margin-bottom: 15px;
+      display: flex;
+    }
+    
+    .bot-message {
+      justify-content: flex-start;
+    }
+    
+    .user-message {
+      justify-content: flex-end;
+    }
+    
+    .message-bubble {
+      max-width: 80%;
+      padding: 10px 15px;
+      border-radius: 18px;
+    }
+    
+    .bot-message .message-bubble {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .user-message .message-bubble {
       background: #00b4d8;
       color: black;
-      padding: 12px 24px;
-      border: none;
-      font-weight: bold;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s ease;
     }
-    .contact-form button:hover {
-      background: #90e0ef;
+    
+    .chat-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .chat-option {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      padding: 12px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .chat-option:hover {
+      background: rgba(0, 180, 216, 0.3);
+      transform: translateX(5px);
+    }
+    
+    .chat-option i {
+      color: #00b4d8;
+    }
+
+    /* Go Up Button */
+    .go-up {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: rgba(0, 180, 216, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 999;
+      backdrop-filter: blur(5px);
+    }
+    
+    .go-up.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .go-up:hover {
+      background: rgba(0, 180, 216, 0.4);
+    }
+    
+    .go-up i {
+      color: #00b4d8;
+      font-size: 20px;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .tab-button {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #aaa;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+    .tab-button:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .tab-button.active {
+      background: #00b4d8;
+      color: black;
     }
 
     footer {
@@ -146,12 +473,26 @@
       color: #aaa;
       font-size: 0.9rem;
       margin-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    @media (max-width: 600px) {
-      .section { padding: 15px; }
+    @media (max-width: 768px) {
+      .section { padding: 20px; }
       .highlight-skill { font-size: 12px; padding: 6px 12px; }
-      .contact-form { padding: 20px; }
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+      .section-nav {
+        display: none;
+      }
+      .chatbot-window {
+        width: calc(100vw - 40px);
+        right: -10px;
+      }
+      .go-up {
+        bottom: 80px;
+        right: 15px;
+      }
     }
   </style>
 </head>
@@ -163,156 +504,441 @@
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
   <script type="text/babel">
+    // COMBINED DATA FROM BOTH RESUMES WITH PROJECT URLs
     const projects = [
-      { title: "AI-Powered Predictive System", description: "Prototype for predictive analysis using AI algorithms." },
-      { title: "Tech Support Bot", description: "AI chatbot for customer queries in a restaurant." },
-      { title: "CRM System", description: "Modules for site audits, weekly reviews, and escalation tracking." },
-      { title: "Multi-Currency Donation Platform", description: "Paystack NGN/USD donations, profile uploads." },
-      { title: "Expense Tracker App", description: "Track expenses via text, scan, and voice inputs." },
-      { title: "Event Share Website", description: "Cloudinary-powered media storage and sharing." }
+      { 
+        title: "EHICENTRE Data Management System", 
+        description: "Scalable backend system for data management using PHP/Laravel with MySQL optimization.",
+        stack: ["PHP", "Laravel", "MySQL", "REST API"],
+        url: "https://ehicentre.org.ng",
+        hasLiveDemo: true
+      },
+      { 
+        title: "CRM System", 
+        description: "Developed modules for site audits, escalation tracking, and weekly reviews with secure backend APIs.",
+        stack: ["Node.js", "Express.js", "PostgreSQL", "JWT", "REST API"],
+        url: "https://crm128.com/",
+        hasLiveDemo: true
+      },
+      { 
+        title: "OSAAGOSS Alumni Web App", 
+        description: "Fullstack alumni platform with profile management and communication features.",
+        stack: ["PHP", "Laravel", "MySQL", "JavaScript", "CSS"],
+        url: "https://osaagos-website.vercel.app",
+        hasLiveDemo: true
+      },
+      { 
+        title: "FIXERONI", 
+        description: "RESTful API service for a service marketplace where artisans can be connected to the clients.",
+        stack: ["PHP", "MySQL", "REST API", "JWT", "Paystack"],
+        url: "https://fixeroni.com",
+        hasLiveDemo: true
+      },
+      { 
+        title: "Chinese Restaurant (Real-time Ordering)", 
+        description: "Implemented real-time backend logic for processing customer orders.",
+        stack: ["Node.js", "Express.js", "WebSocket", "Mysql", "Push Notifications"],
+        url: "https://fdd128.com/chinese/",
+        hasLiveDemo: true
+      },
+      { 
+        title: "Caregiver Platform", 
+        description: "system for caregiver management with scheduling and notifications for Admin, staffs, and clients.",
+        stack: ["PHP", "Laravel", "MySQL", "API", "Notifications"],
+        url: "https://hca128.com/",
+        hasLiveDemo: true
+      },
+      { 
+        title: "NGINSIGHTS", 
+        description: "Data analytics platform with dashboard and reporting features.",
+        stack: ["Node.js", "Express.js", "PostgreSQL", "Chart.js", "REST API"],
+        url: "https://nginsight.com",
+        hasLiveDemo: true
+      },
+      { 
+        title: "DareADream", 
+        description: "NGO platform for community engagement and support.",
+        stack: ["PHP",  "MySQL", "REST API", "JavaScript", "CSS"],
+        url: "https://dareadream.org/",
+        hasLiveDemo: true
+      }
     ];
 
-    const coreSkills = [
-      "JavaScript (ES6+)", "TypeScript", "PHP", "Python", "SQL", "HTML5", "CSS3",
-      "Node.js", "Express.js", "Laravel", "React.js", "Remix.js", "FastAPI", "Flask",
-      "MongoDB", "MySQL", "PostgreSQL", "SQLite",
-      "AWS (SSM, EC2, VPC)", "Cloudinary", "CI/CD", "RESTful APIs"
-    ];
-
-    const nonTechSkills = [
-      "Startup Ideation & Lean Business Modeling",
-      "Problem Solving & Debugging",
-      "Cross-Cultural Teamwork & Collaboration",
-      "Technical Documentation & Communication",
-      "Self-Driven Learning & Initiative"
-    ];
+    const technicalSkills = {
+      "Languages": ["JavaScript (ES6+)", "TypeScript", "PHP", "Python", "SQL"],
+      "Frontend": ["React.js", "HTML5", "CSS3", "Remix.js"],
+      "Backend": ["Node.js", "Express.js", "PHP (Vanilla)", "Laravel", "FastAPI", "Flask"],
+      "Databases": ["MySQL", "PostgreSQL", "MongoDB", "SQLite"],
+      "APIs & Services": ["RESTful APIs", "JSON", "JWT/OAuth", "Paystack Integration", "Third-party APIs"],
+      "Cloud & DevOps": ["AWS (EC2, SSM, VPC)", "Nginx", "CI/CD", "Docker", "Git", "GitHub"],
+      "Tools & Others": ["Postman", "GraphQL", "MVC Architecture", "Eloquent ORM", "PDO", "Prisma", "Mongoose"]
+    };
 
     const experiences = [
       {
-        role: "Fullstack Engineer | Gen128 Solutions",
-        period: "2024 – Present",
+        role: "Backend / Fullstack Engineer",
+        company: "Gen128 Solutions",
+        period: "2024 – 2025",
         details: [
-          "Developed backend APIs and scalable database schemas.",
-          "Integrated cloud storage and third-party APIs.",
-          "Led AI-assisted customer service automation."
+          "Designed and maintained scalable backend systems using Vanilla PHP and Laravel.",
+          "Built and optimized RESTful APIs for enterprise applications.",
+          "Integrated Paystack payment gateway for secure transactions.",
+          "Designed and optimized MySQL & PostgreSQL database schemas for performance.",
+          "Deployed applications to AWS cloud servers and configured Nginx.",
+          "Collaborated with frontend teams to ensure seamless API integration.",
+          "Implemented role-based authentication with JWT and OAuth."
         ]
       },
       {
-        role: "Intern | Kolatech Consultancy, HNG",
+        role: "Backend Developer (Volunteer / Intern)",
+        company: "Kolatech Consultancy / HNG",
         period: "2023 – 2024",
         details: [
-          "Built responsive web apps with multi-disciplinary teams.",
-          "Contributed to CRM modules, job boards, and donation systems.",
-          "Implemented secure authentication and payment workflows."
+          "Developed RESTful APIs using PHP for dashboards and admin systems.",
+          "Implemented user management, notifications, and messaging features.",
+          "Wrote clean, documented, and maintainable PHP code.",
+          "Worked with MySQL and MongoDB to optimize database operations.",
+          "Debugged and improved API endpoints for better performance and reliability.",
+          "Contributed to backend features using Node.js/Express.js."
         ]
       }
     ];
 
     const certifications = [
-      "B.Sc. in Physics – Obafemi Awolowo University, 2021",
-      "Software Development – Geegstack Academy, 2024",
-      "Advanced Software Development Mastery – Incubator Program, 2025",
-      "DevOps & Cloud Engineering – TechRise Mentorship Program, 2025",
-      "Web3 Internship – Genesys, 2025"
+      "B.Sc. Physics — Obafemi Awolowo University, Ile-Ife (2021)",
+      "Software Development — Geegstack Academy (2024)",
+      "Advanced Software Development Mastery — Incubator (2025)",
+      "DevOps/Cloud Engineering(AWS) — Schulltech(ongoing)",
+    ];
+
+    const coreStrengths = [
+      "Fullstack Development (React.js + Node.js/Express.js/PHP)",
+      "RESTful API Design & Development",
+      "Database Design & Optimization (MySQL, PostgreSQL, MongoDB)",
+      "Payment Gateway Integration (Paystack)",
+      "Cloud Deployment & AWS Services",
+      "Debugging & Problem-Solving",
+      "Remote Collaboration & Teamwork",
+      "Clean Code & Technical Documentation"
+    ];
+
+    // Section IDs for navigation
+    const sections = [
+      { id: 'summary', label: 'Summary' },
+      { id: 'skills', label: 'Skills' },
+      { id: 'strengths', label: 'Strengths' },
+      { id: 'experience', label: 'Experience' },
+      { id: 'projects', label: 'Projects' },
+      { id: 'education', label: 'Education' },
+      { id: 'contact', label: 'Contact' }
     ];
 
     function Header() {
-      return (
-        <header>
-          <h1>Akanji Lawrence</h1>
-          <p>Lagos, Nigeria | +234 816 599 9946 | akanjilawrence9999@gmail.com</p>
-          <p><a href="https://github.com/sirlawglobal" target="_blank">GitHub: sirlawglobal</a></p>
-        </header>
+      return React.createElement('header', null,
+        React.createElement('h1', null, 'Akanji Lawrence'),
+        React.createElement('div', {className: 'subtitle'}, 'Fullstack Engineer'),
+        React.createElement('p', null, 'Lagos, Nigeria | +234 816 599 9946 | akanjilawrence9999@gmail.com'),
+        React.createElement('p', null,
+          React.createElement('a', {href: 'https://github.com/sirlawglobal', target: '_blank'}, 
+            'GitHub: https://github.com/sirlawglobal'
+          )
+        )
       );
     }
 
-    function Section({ title, children }) {
-      return (
-        <div className="section">
-          <h2>{title}</h2>
-          {children}
-        </div>
+    function Section({ title, children, className = '', id = '' }) {
+      return React.createElement('div', {className: `section ${className}`, id: id},
+        React.createElement('h2', null, title),
+        children
       );
     }
 
-    function Skills({ skills }) {
-      return <div className="skills">{skills.map((s, i) => <span key={i} className="highlight-skill">{s}</span>)}</div>;
+    function SectionNavigation() {
+      const [activeSection, setActiveSection] = React.useState('summary');
+      
+      React.useEffect(() => {
+        const handleScroll = () => {
+          const scrollPosition = window.scrollY + 100;
+          
+          // Find which section is currently in view
+          for (const section of sections) {
+            const element = document.getElementById(section.id);
+            if (element) {
+              const { offsetTop, offsetHeight } = element;
+              if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+                setActiveSection(section.id);
+                break;
+              }
+            }
+          }
+        };
+        
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+      
+      const scrollToSection = (sectionId) => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      };
+      
+      return React.createElement('div', {className: 'section-nav'},
+        sections.map(section => 
+          React.createElement('div', {
+            key: section.id,
+            className: `nav-dot ${activeSection === section.id ? 'active' : ''}`,
+            onClick: () => scrollToSection(section.id),
+            title: section.label
+          })
+        )
+      );
+    }
+
+    function GoUpButton() {
+      const [isVisible, setIsVisible] = React.useState(false);
+      
+      React.useEffect(() => {
+        const toggleVisibility = () => {
+          if (window.pageYOffset > 300) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+        };
+        
+        window.addEventListener('scroll', toggleVisibility);
+        return () => window.removeEventListener('scroll', toggleVisibility);
+      }, []);
+      
+      const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+      
+      return React.createElement('div', {
+        className: `go-up ${isVisible ? 'visible' : ''}`,
+        onClick: scrollToTop
+      },
+        React.createElement('i', {className: 'fas fa-chevron-up'})
+      );
+    }
+
+    function Chatbot() {
+      const [isOpen, setIsOpen] = React.useState(false);
+      const [messages, setMessages] = React.useState([
+        { type: 'bot', text: "Hello! I'm Akanji's virtual assistant. How can I help you today?" }
+      ]);
+      
+      const addMessage = (text, type = 'user') => {
+        setMessages(prev => [...prev, { type, text }]);
+      };
+      
+      const handleWhatsApp = () => {
+        const phone = "+2348165999946";
+        const message = "Hello Akanji, I saw your portfolio and would like to connect with you.";
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+        addMessage("Opening WhatsApp...");
+      };
+      
+      const handleEmail = () => {
+        const email = "akanjilawrence9999@gmail.com";
+        const subject = "Contact from Portfolio";
+        const body = "Hello Akanji,\n\nI saw your portfolio and would like to connect with you.";
+        const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.open(url);
+        addMessage("Opening email client...");
+      };
+      
+      return React.createElement('div', {className: 'chatbot-container'},
+        React.createElement('div', {className: 'chatbot-window', style: {display: isOpen ? 'block' : 'none'}},
+          React.createElement('div', {className: 'chatbot-header'},
+            React.createElement('h3', null, "Let's Chat!"),
+            React.createElement('button', {
+              className: 'close-chatbot',
+              onClick: () => setIsOpen(false)
+            }, '×')
+          ),
+          React.createElement('div', {className: 'chatbot-body'},
+            messages.map((msg, index) => 
+              React.createElement('div', {
+                key: index,
+                className: `chat-message ${msg.type}-message`
+              },
+                React.createElement('div', {className: 'message-bubble'}, msg.text)
+              )
+            ),
+            React.createElement('div', {className: 'chat-options'},
+              React.createElement('button', {
+                className: 'chat-option',
+                onClick: handleWhatsApp
+              },
+                React.createElement('i', {className: 'fab fa-whatsapp'}),
+                'Chat on WhatsApp'
+              ),
+              React.createElement('button', {
+                className: 'chat-option',
+                onClick: handleEmail
+              },
+                React.createElement('i', {className: 'fas fa-envelope'}),
+                'Send Email'
+              )
+            )
+          )
+        ),
+        React.createElement('div', {
+          className: 'chatbot-toggle',
+          onClick: () => setIsOpen(!isOpen)
+        },
+          React.createElement('i', {className: 'fas fa-comment-dots'})
+        )
+      );
+    }
+
+    function SkillsTabs() {
+      const [activeTab, setActiveTab] = React.useState("Languages");
+      
+      return React.createElement('div', null,
+        React.createElement('div', {className: 'tabs'},
+          Object.keys(technicalSkills).map(category => 
+            React.createElement('button', {
+              key: category,
+              className: `tab-button ${activeTab === category ? 'active' : ''}`,
+              onClick: () => setActiveTab(category)
+            }, category)
+          )
+        ),
+        React.createElement('div', {className: 'skills'},
+          technicalSkills[activeTab].map((skill, i) => 
+            React.createElement('span', {key: i, className: 'highlight-skill'}, skill)
+          )
+        )
+      );
     }
 
     function ExperienceList({ items }) {
-      return items.map((exp, i) => (
-        <div className="experience-item" key={i}>
-          <h3>{exp.role} <small>({exp.period})</small></h3>
-          <ul>
-            {exp.details.map((d, j) => <li key={j}>{d}</li>)}
-          </ul>
-        </div>
-      ));
-    }
-
-    function ListDisplay({ items }) {
-      return <ul>{items.map((item, i) => <li key={i}>{item}</li>)}</ul>;
-    }
-
-    function Project({ title, description }) {
-      return (
-        <div className="project">
-          <h3>{title}</h3>
-          <p>{description}</p>
-        </div>
+      return items.map((exp, i) => 
+        React.createElement('div', {key: i, className: 'experience-item'},
+          React.createElement('h3', null, exp.role),
+          React.createElement('div', {className: 'company'}, exp.company),
+          React.createElement('div', {className: 'period'}, exp.period),
+          React.createElement('ul', null,
+            exp.details.map((d, j) => 
+              React.createElement('li', {key: j}, d)
+            )
+          )
+        )
       );
     }
 
-    function ContactForm() {
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        alert("Thanks for reaching out! I’ll get back to you shortly.");
-      };
-      return (
-        <form className="contact-form" onSubmit={handleSubmit}>
-          <input type="text" placeholder="Your Name" required />
-          <input type="email" placeholder="Your Email" required />
-          <textarea rows="5" placeholder="Your Message" required />
-          <button type="submit">Send Message</button>
-        </form>
+    function ListDisplay({ items }) {
+      return React.createElement('ul', {style: {listStyle: 'none', paddingLeft: '10px'}},
+        items.map((item, i) => 
+          React.createElement('li', {
+            key: i,
+            style: {marginBottom: '10px', paddingLeft: '20px', position: 'relative'}
+          },
+            React.createElement('span', {style: {position: 'absolute', left: '0', color: '#00b4d8'}}, '▸'),
+            item
+          )
+        )
+      );
+    }
+
+    function Project({ title, description, stack = [], url, hasLiveDemo = false }) {
+      return React.createElement('a', {
+        className: 'project',
+        href: url,
+        target: '_blank',
+        rel: 'noopener noreferrer'
+      },
+        React.createElement('h3', null,
+          title,
+          React.createElement('i', {className: 'fas fa-external-link-alt'})
+        ),
+        React.createElement('p', null, description),
+        React.createElement('div', {className: 'tech-stack'},
+          stack.map((tech, i) => 
+            React.createElement('span', {key: i, className: 'tech-tag'}, tech)
+          )
+        ),
+        React.createElement('div', {className: 'view-project'},
+          hasLiveDemo ? [
+            React.createElement('span', {key: 'text'}, 'View Live Demo'),
+            React.createElement('i', {key: 'icon', className: 'fas fa-external-link-alt'})
+          ] : [
+            React.createElement('span', {key: 'text'}, 'View on GitHub'),
+            React.createElement('i', {key: 'icon', className: 'fab fa-github'})
+          ]
+        )
       );
     }
 
     function App() {
-      return (
-        <div className="container">
-          <Header />
-          <Section title="Professional Summary">
-            <p>
-              Innovative and solutions-driven Fullstack Software Engineer & Aspiring AI Entrepreneur with 3+ years of experience building scalable, user-focused products. Passionate about leveraging AI and entrepreneurship to solve African and global challenges.
-            </p>
-          </Section>
-          <Section title="Core Technical Skills">
-            <Skills skills={coreSkills} />
-          </Section>
-          <Section title="Non-Technical & Entrepreneurial Skills">
-            <ListDisplay items={nonTechSkills} />
-          </Section>
-          <Section title="Experience">
-            <ExperienceList items={experiences} />
-          </Section>
-          <Section title="Projects">
-            <div className="project-grid">
-              {projects.map((p, i) => <Project key={i} {...p} />)}
-            </div>
-          </Section>
-          <Section title="Education & Certifications">
-            <ListDisplay items={certifications} />
-          </Section>
-          <Section title="Contact Me">
-            <ContactForm />
-          </Section>
-          <footer>&copy; {new Date().getFullYear()} Akanji Lawrence. All rights reserved.</footer>
-        </div>
+      return React.createElement('div', {className: 'container'},
+        React.createElement(Header, null),
+        React.createElement(SectionNavigation, null),
+        React.createElement(GoUpButton, null),
+        React.createElement(Chatbot, null),
+        
+        React.createElement(Section, {title: 'Professional Summary', id: 'summary'},
+          React.createElement('p', {style: {fontSize: '1.1rem'}},
+            'Fullstack Engineer with 3+ years of experience building scalable, secure web applications using ' +
+            'React.js, Express.js, and PHP/Laravel. Strong expertise in RESTful API development, ' +
+            'database design & optimization (MySQL, PostgreSQL, MongoDB), and cloud deployment (AWS). ' +
+            'Proven ability to deliver end-to-end solutions, collaborate effectively in distributed teams, ' +
+            'and write clean, maintainable code. Passionate about developing digital solutions that address ' +
+            'real-world challenges across Africa.'
+          )
+        ),
+        
+        React.createElement(Section, {title: 'Technical Skills', id: 'skills'},
+          React.createElement(SkillsTabs, null)
+        ),
+        
+        React.createElement(Section, {title: 'Core Strengths', id: 'strengths'},
+          React.createElement(ListDisplay, {items: coreStrengths})
+        ),
+        
+        React.createElement(Section, {title: 'Professional Experience', id: 'experience'},
+          React.createElement(ExperienceList, {items: experiences})
+        ),
+        
+        React.createElement(Section, {title: 'Projects', id: 'projects'},
+          React.createElement('div', {className: 'project-grid'},
+            projects.map((p, i) => 
+              React.createElement(Project, {
+                key: i,
+                title: p.title,
+                description: p.description,
+                stack: p.stack,
+                url: p.url,
+                hasLiveDemo: p.hasLiveDemo
+              })
+            )
+          ),
+          React.createElement('p', {
+            style: {marginTop: '20px', color: '#aaa', textAlign: 'center', fontSize: '0.9rem'}
+          },
+            React.createElement('i', {className: 'fas fa-info-circle', style: {marginRight: '5px'}}),
+            'Click on any project to view it live demo'
+          )
+        ),
+        
+        React.createElement(Section, {title: 'Education & Certifications', id: 'education'},
+          React.createElement(ListDisplay, {items: certifications})
+        ),
+        
+        
+        React.createElement('footer', null,
+          `© ${new Date().getFullYear()} Akanji Lawrence. All rights reserved. | ` +
+          'Phone: +234 816 599 9946 | Email: akanjilawrence9999@gmail.com'
+        )
       );
     }
 
-    ReactDOM.render(<App />, document.getElementById("root"));
+    ReactDOM.render(React.createElement(App, null), document.getElementById("root"));
   </script>
 </body>
 </html>
